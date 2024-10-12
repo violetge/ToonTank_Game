@@ -22,6 +22,8 @@ class TOONTANKS_API AEnemyTurrets : public ABasePawn
 	virtual void BeginPlay() override;
 
 public:	
+
+	AEnemyTurrets();
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -31,5 +33,17 @@ public:
 
 
 	void RotateTurret(FVector TargetLocation);
+	bool isFierRange();
+
+
+
+	// ¶¨Ê±Æ÷¾ä±ú
+	FTimerHandle FireRateTimerHandle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float FireRate;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float FireRange;
+
 
 };

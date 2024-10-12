@@ -46,7 +46,6 @@ public:
 
 	void Move(float Value);
 	void Turn(float Value);
-	void Fire();
 	void RotateTurret(FVector Value);
 
 	APlayerController* PlayerControllerRef;

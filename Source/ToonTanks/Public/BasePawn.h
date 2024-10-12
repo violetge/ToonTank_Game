@@ -34,12 +34,18 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* Turret;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
+		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
 	UCapsuleComponent* CapsuleComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USceneComponent* ProjectileSpawnPoint;
+
+protected:
+	void Fire();
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Projectile Type")
+	TSubclassOf<class AProjectile> ProjectileClass;
 
 
 };

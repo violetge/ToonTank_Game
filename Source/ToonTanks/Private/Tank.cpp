@@ -72,11 +72,6 @@ void ATank::Turn(float Value)
 	AddActorLocalRotation(DeltaRotation, true);
 }
 
-void ATank::Fire()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Fire!"));
-}
-
 
 
 

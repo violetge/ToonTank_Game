@@ -2,6 +2,7 @@
 
 
 #include "BasePawn.h"
+#include "Projectile.h" // 确保在使用 AProjectile 之前包含它的头文件
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -18,6 +19,8 @@ ABasePawn::ABasePawn()
 	Base->SetupAttachment(CapsuleComponent);
 	Turret->SetupAttachment(Base);
 	ProjectileSpawnPoint->SetupAttachment(Turret);
+
+
 
 	 
 
@@ -44,4 +47,21 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+void ABasePawn::Fire()
+{
+	if (ProjectileClass)
+	{
+		// 获取炮弹生成点的位置和旋转
+		FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
+		FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
+
+		// 生成炮弹
+		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+
+		UE_LOG(LogTemp, Display, TEXT("fire"));
+
+	}
+}
+
 
