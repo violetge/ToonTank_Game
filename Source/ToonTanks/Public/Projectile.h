@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <GameFramework/ProjectileMovementComponent.h>
+#include <Kismet/GameplayStatics.h>
+#include "Particles/ParticleSystemComponent.h"
 #include "Projectile.generated.h"
 
 UCLASS()
@@ -30,7 +32,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(EditAnywhere, Category = "Damage")
+	float Damage;
+
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	// 粒子系统引用
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	UParticleSystem* HitEffect;
+
+	UPROPERTY(VisibleAnywhere, Category = "Effects")
+	UParticleSystemComponent* Traill;
+
+private:
 
 };

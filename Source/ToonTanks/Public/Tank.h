@@ -47,7 +47,13 @@ public:
 	void Move(float Value);
 	void Turn(float Value);
 	void RotateTurret(FVector Value);
+	void HandleDestruction();
+	APlayerController* GetPlayerController();
 
-	APlayerController* PlayerControllerRef;
+	APlayerController* TankPlayerController;
+
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	UParticleSystem* DeathParticle;
 
 };

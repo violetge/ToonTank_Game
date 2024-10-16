@@ -3,6 +3,7 @@
 
 #include "Projectile.h"
 
+
 // Sets default values
 AProjectile::AProjectile()
 {
@@ -11,7 +12,14 @@ AProjectile::AProjectile()
 
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Projectile Mesh"));
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement"));
-	RootComponent = ProjectileMesh;
+	Traill = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Smoke Traill"));
+
+	RootComponent = ProjectileMesh;	
+	Traill->SetupAttachment(RootComponent);
+
+
+
+	Damage = 50;
 
 
 }
@@ -34,7 +42,19 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Projectile hit: %s"), *OtherActor->GetName());
+	if (OtherActor && OtherActor != this)
+	{
+		UGameplayStatics::ApplyDamage(OtherActor, Damage, nullptr, this, nullptr);
+		if (HitEffect)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(this, HitEffect, GetActorLocation(), GetActorRotation(), FVector(1.0f, 1.0f, 1.0f), true);
+			UE_LOG(LogTemp, Warning, TEXT("SpawnEmitterAtLocation"));
+		}
+		
+		UE_LOG(LogTemp, Warning, TEXT("Projectile hit: %s"), *OtherActor->GetName());
+
+	}
+
 
 
 
@@ -43,5 +63,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 
 	//Ïú»ÙÅÚµ¯
 	Destroy();
+
 }
+
 

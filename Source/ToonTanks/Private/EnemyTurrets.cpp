@@ -78,6 +78,19 @@ bool AEnemyTurrets::isFierRange()
 	return false;
 }
 
+void AEnemyTurrets::HandleDestruction()
+{
+	Super::HandleDestruction();
+	// 播放死亡动画
+	// 播放声音
+	// 隐藏模型
+
+	// 生成粒子效果
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DeathParticle, GetActorLocation());
+	// 销毁Actor
+	Destroy();
+}
+
 
 
 

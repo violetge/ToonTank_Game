@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Components/CapsuleComponent.h"
+#include "HealthComponent.h"
 #include "BasePawn.generated.h"
 
 UCLASS()
@@ -39,6 +40,11 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USceneComponent* ProjectileSpawnPoint;
+
+	UPROPERTY(VisibleAnywhere, Category = "Health")
+	UHealthComponent* HealthComponent;
+
+	void HandleDestruction();
 
 protected:
 	void Fire();

@@ -3,6 +3,7 @@
 
 #include "Tank.h"
 #include "DrawDebugHelpers.h"
+#include <Kismet/GameplayStatics.h>
 
 ATank::ATank()
 {
@@ -23,9 +24,9 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayerControllerRef = Cast<APlayerController>(GetController());
+	TankPlayerController = Cast<APlayerController>(GetController());
 
-	PlayerControllerRef->SetShowMouseCursor(true);
+	
 
 }
 
@@ -33,10 +34,10 @@ void ATank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (PlayerControllerRef)
+	if (TankPlayerController)
 	{
 		FHitResult TraceHitResult;
-		PlayerControllerRef->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
+		TankPlayerController->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
 
 		DrawDebugSphere(GetWorld(), TraceHitResult.ImpactPoint, 20, 12, FColor::Red, false, -1.0f);
 
@@ -87,4 +88,27 @@ void ATank::RotateTurret(FVector TargetLocation)
 	Turret->SetWorldRotation(FRotator(0, TargetRotation.Yaw, 0));
 
 
+}
+
+void ATank::HandleDestruction()
+{
+	// 播放死亡动画
+	// 播放声音
+	// 播放粒子效果
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DeathParticle, GetActorLocation());
+	// 隐藏模型
+	SetActorHiddenInGame(true);
+
+	//设置tick不可用
+	SetActorTickEnabled(false);
+
+
+
+}
+
+
+
+APlayerController* ATank::GetPlayerController()
+{
+	return TankPlayerController;
 }

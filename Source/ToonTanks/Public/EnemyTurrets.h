@@ -34,6 +34,7 @@ public:
 
 	void RotateTurret(FVector TargetLocation);
 	bool isFierRange();
+	void HandleDestruction();
 
 
 
@@ -44,6 +45,9 @@ public:
 	float FireRate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FireRange;
+
+	UPROPERTY(EditAnywhere, Category = "Effects")
+	UParticleSystem* DeathParticle;
 
 
 };
