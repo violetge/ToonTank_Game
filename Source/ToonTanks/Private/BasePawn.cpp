@@ -3,6 +3,8 @@
 
 #include "BasePawn.h"
 #include "Projectile.h" // 确保在使用 AProjectile 之前包含它的头文件
+#include "Tank.h"
+
 
 
 // Sets default values
@@ -16,6 +18,7 @@ ABasePawn::ABasePawn()
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSpawnPoint"));
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("MovementComponent"));  // 初始化移动组件
 
 	RootComponent = CapsuleComponent;
 	Base->SetupAttachment(CapsuleComponent);
@@ -68,9 +71,17 @@ void ABasePawn::Fire()
 		FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
 
 		// 生成炮弹
-		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+		if (Projectile)
+		{
+			// 检查是否为玩家控制的坦克发射
+			bool bIsPlayerOwned = bIsPlayerControlled;
+			//打印bIsPlayerOwned
+			UE_LOG(LogTemp, Display, TEXT("bIsPlayerOwned: %d"), bIsPlayerOwned);
+			Projectile->SetOwnerType(bIsPlayerOwned);
 
-		UE_LOG(LogTemp, Display, TEXT("fire"));
+			UE_LOG(LogTemp, Display, TEXT("fire"));
+		}
 
 	}
 }

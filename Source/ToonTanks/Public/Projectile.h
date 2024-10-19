@@ -26,6 +26,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SetOwnerType(bool bIsPlayerOwn);
+
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* ProjectileMesh;
 
@@ -47,4 +49,5 @@ public:
 
 private:
 
+	bool bIsPlayerOwned; // 标识子弹是否由玩家发射·
 };

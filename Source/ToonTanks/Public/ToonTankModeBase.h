@@ -20,21 +20,20 @@ protected:
 
 public:
 	AToonTankModeBase();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartDelay")
-	float StartDelay;
 	
 	void ActorDied(AActor* DeadActor);
-	void EnableTankInput();
-
 
 	// 游戏结束 显示UI BlueprintImplementableEvent 用于蓝图实现
 	UFUNCTION(BlueprintImplementableEvent, Category = "Game")
 	void OnGameOver(bool bWon);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StartDelay")
+	float StartDelay;
+
 private:
 	class ATank* Tank;
 	class AEnemyTurrets* EnemyTurrets;
+	class AEnemyTank* EnemyTank;
 	AToonTankPlayerController* ToonTankPlayerController;
 
 	// 定时器句柄
@@ -44,5 +43,15 @@ private:
 
 
 	int32 TargetTurrets;
+	int32 TargetEnemyTanks;
+
 	int32 GetTargetTurretCount();
+	int32 GetTargetEnemyTankCount();
+	void EnableTankInput();
+	void HandlePlayerTankDeath();
+	void HandleEnemyTurretDeath(AEnemyTurrets* DeadTurret);
+	void HandleEnemyTankDeath(AEnemyTank* DeadTank);
+
+
+
 };

@@ -18,6 +18,13 @@ ATank::ATank()
 	SpringArm->SetupAttachment(RootComponent);
 	CameraComponent->SetupAttachment(SpringArm);
 
+	PrimaryActorTick.bCanEverTick = true;
+	Tags.Add(FName("PlayerTank")); // 添加标签
+
+	
+	// 设置为玩家控制的坦克
+	bIsPlayerControlled = true;
+
 }
 
 void ATank::BeginPlay()
@@ -81,7 +88,7 @@ void ATank::RotateTurret(FVector TargetLocation)
 	// 获取炮塔的当前位置
 	FVector TurretLocation = Turret->GetComponentLocation();
 
-	FVector ToTarget = TargetLocation - TurretLocation;
+	FVector ToTarget = TargetLocation - TurretLocation; 
 
 	FRotator TargetRotation = ToTarget.Rotation();
 

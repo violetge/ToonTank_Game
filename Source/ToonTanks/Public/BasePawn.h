@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Components/StaticMeshComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SceneComponent.h"
+#include "GameFramework/FloatingPawnMovement.h"
 #include "HealthComponent.h"
 #include "BasePawn.generated.h"
 
@@ -35,7 +38,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* Turret;
-		UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision")
 	UCapsuleComponent* CapsuleComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -44,14 +47,21 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 	UHealthComponent* HealthComponent;
 
-	void HandleDestruction();
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UFloatingPawnMovement* MovementComponent;  // 添加移动组件
 
-protected:
-	void Fire();
 
-private:
 	UPROPERTY(EditAnywhere, Category = "Projectile Type")
 	TSubclassOf<class AProjectile> ProjectileClass;
+
+	void HandleDestruction();
+	void Fire();
+protected:
+	// 标识坦克是否由玩家控制
+	bool bIsPlayerControlled;
+
+private:
+
 
 
 };

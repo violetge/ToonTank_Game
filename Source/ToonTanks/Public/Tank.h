@@ -56,4 +56,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Effects")
 	UParticleSystem* DeathParticle;
 
+private:
+
 };
