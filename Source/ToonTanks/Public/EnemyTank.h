@@ -25,10 +25,11 @@ public:
 
 	// 处理敌人死亡的逻辑
 	void HandleDestruction();
-
+	
 private:
 	class AEnemyTankController* EnemyTankController;
 
+	FVector MoveDirectionDelta;
 	FVector PreviousLocation;
 
 };

@@ -19,6 +19,8 @@ AEnemyTank::AEnemyTank()
 
 	// 设置为敌人控制的坦克
 	bIsPlayerControlled = false;
+
+
 }
 
 void AEnemyTank::BeginPlay()
@@ -28,6 +30,7 @@ void AEnemyTank::BeginPlay()
 	EnemyTankController = Cast<AEnemyTankController>(GetController());  // 获取控制器
 	// 初始化上一帧的位置
 	PreviousLocation = GetActorLocation();
+
 }
 
 void AEnemyTank::Tick(float DeltaTime)
@@ -37,8 +40,13 @@ void AEnemyTank::Tick(float DeltaTime)
 	// 计算当前帧的位置
 	FVector CurrentLocation = GetActorLocation();
 
+	CurrentLocation += MoveDirectionDelta * DeltaTime * 100.0f;
+	SetActorLocation(CurrentLocation);
+
+
 	// 计算移动方向
 	FVector MoveDirection = CurrentLocation - PreviousLocation;
+
 
 	// 如果移动方向不为零，更新坦克的旋转
 	if (!MoveDirection.IsNearlyZero())
@@ -63,5 +71,6 @@ void AEnemyTank::HandleDestruction()
 	// 销毁Actor
 	Destroy();
 }
+
 
 
