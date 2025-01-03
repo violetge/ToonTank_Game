@@ -80,7 +80,7 @@ void ABasePawn::Fire()
 			UE_LOG(LogTemp, Display, TEXT("bIsPlayerOwned: %d"), bIsPlayerOwned);
 			Projectile->SetOwnerType(bIsPlayerOwned);
 
-			UE_LOG(LogTemp, Display, TEXT("fire"));
+			/*UE_LOG(LogTemp, Display, TEXT("fire"));*/
 		}
 
 	}

@@ -14,7 +14,7 @@ void AEnemyTankController::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0); // 获取玩家控制的Pawn
-	ControlledTank = Cast<AEnemyTank>(GetPawn()); // 获取控制的坦克
+	
 
 	GetWorld()->GetTimerManager().SetTimer(FireTimerHandle, this, &AEnemyTankController::FireAtPlayer, 3.0f, true);
 
@@ -56,7 +56,16 @@ void AEnemyTankController::Tick(float DeltaTime)
 
 void AEnemyTankController::FireAtPlayer()
 {
+	ControlledTank = Cast<AEnemyTank>(GetPawn()); // 获取控制的坦克
 	// 调用父类的 Fire() 函数
-	ControlledTank->Fire();
-	UE_LOG(LogTemp, Warning, TEXT("Enemy Fire!"));
+	if (ControlledTank)
+	{
+		ControlledTank->Fire();
+		/*UE_LOG(LogTemp, Warning, TEXT("Enemy Fire!"));*/
+	}
+	else
+	{
+		/*UE_LOG(LogTemp, Error, TEXT("ControlledTank is not valid"));*/
+	}
+	
 }

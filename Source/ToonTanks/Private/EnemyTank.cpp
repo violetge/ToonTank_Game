@@ -14,7 +14,7 @@ AEnemyTank::AEnemyTank()
 	}
 	SpringArm->DestroyComponent();
 
-	PrimaryActorTick.bCanEverTick = true;
+	
 	Tags.Add(FName("Enemy")); // 添加标签
 
 	// 设置为敌人控制的坦克

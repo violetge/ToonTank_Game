@@ -19,6 +19,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Tick(float DeltaTime) override;
 	AToonTankModeBase();
 	
 	void ActorDied(AActor* DeadActor);
@@ -34,6 +35,8 @@ private:
 	class ATank* Tank;
 	class AEnemyTurrets* EnemyTurrets;
 	class AEnemyTank* EnemyTank;
+	class ASpawnManager* SpawnManager;
+	class AWall* Wall;
 	AToonTankPlayerController* ToonTankPlayerController;
 
 	// ¶¨Ê±Æ÷¾ä±ú
@@ -51,6 +54,7 @@ private:
 	void HandlePlayerTankDeath();
 	void HandleEnemyTurretDeath(AEnemyTurrets* DeadTurret);
 	void HandleEnemyTankDeath(AEnemyTank* DeadTank);
+	void HandleWallDeath();
 
 
 

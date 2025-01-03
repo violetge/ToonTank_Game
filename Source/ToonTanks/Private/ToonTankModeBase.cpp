@@ -5,9 +5,16 @@
 #include "Tank.h"
 #include "EnemyTurrets.h"
 #include "EnemyTank.h"
+#include "SpawnManager.h"
+#include "Wall.h"
 #include <Kismet/GameplayStatics.h>
 
 
+
+void AToonTankModeBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
 
 AToonTankModeBase::AToonTankModeBase()
 {
@@ -19,11 +26,11 @@ AToonTankModeBase::AToonTankModeBase()
 void AToonTankModeBase::BeginPlay()
 {
 	Super::BeginPlay();
-	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
+	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0)); // 获取玩家控制的Pawn
+	SpawnManager = Cast<ASpawnManager>(UGameplayStatics::GetActorOfClass(this, ASpawnManager::StaticClass())); // 获取生成管理器
 	ToonTankPlayerController = Cast<AToonTankPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 
-	HandleGameStart(); //初始化目标炮塔计数
-	GetTargetEnemyTankCount(); //初始化目标敌方坦克计数
+	HandleGameStart(); //初始化
 
 	// 设置定时器 3秒后启用输入
 	GetWorld()->GetTimerManager().SetTimer(InputTimerHandle, this, &AToonTankModeBase::EnableTankInput, StartDelay, false);
@@ -46,6 +53,11 @@ void AToonTankModeBase::ActorDied(AActor* DeadActor)
 	else if (DeadActor == (EnemyTank = Cast<AEnemyTank>(DeadActor)))
 	{
 		HandleEnemyTankDeath(EnemyTank);
+	}
+	else if (DeadActor == (Wall = Cast<AWall>(DeadActor)))
+	{
+		HandleWallDeath();
+
 	}
 }
 
@@ -89,9 +101,20 @@ void AToonTankModeBase::HandleEnemyTankDeath(AEnemyTank* DeadTank)
 	UE_LOG(LogTemp, Warning, TEXT("EnemyTank->HandleDestruction() called"));
 	EnemyTank->HandleDestruction();
 	TargetEnemyTanks--;
+	if (TargetEnemyTanks == 0)
+	{
+		OnGameOver(true); //游戏胜利 显示UI
+		ToonTankPlayerController->bShowMouseCursor = true;
+	}
 
 	UE_LOG(LogTemp, Warning, TEXT("TargetEnemyTanks: %d"), TargetEnemyTanks);
 
+
+}
+
+void AToonTankModeBase::HandleWallDeath()
+{
+	Wall->HandleDestruction();
 
 }
 
@@ -115,7 +138,5 @@ int32 AToonTankModeBase::GetTargetTurretCount()
 
 int32 AToonTankModeBase::GetTargetEnemyTankCount()
 {
-	TArray<AActor*> EnemyTankActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemyTank::StaticClass(), EnemyTankActors);
-	return EnemyTankActors.Num();
+	return SpawnManager->MaxSpawnCount;
 }

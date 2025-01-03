@@ -18,7 +18,6 @@ ATank::ATank()
 	SpringArm->SetupAttachment(RootComponent);
 	CameraComponent->SetupAttachment(SpringArm);
 
-	PrimaryActorTick.bCanEverTick = true;
 	Tags.Add(FName("PlayerTank")); // ÃÌº”±Í«©
 
 	

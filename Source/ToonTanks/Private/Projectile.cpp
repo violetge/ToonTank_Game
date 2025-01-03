@@ -5,6 +5,7 @@
 #include "Tank.h" // 假设玩家控制的坦克类名为 ATank
 #include "EnemyTank.h" // 假设敌人坦克类名为 AEnemyTank
 #include "EnemyTurrets.h" // 假设敌人炮塔类名为 AEnemyTurrets
+#include "Wall.h"
 
 
 // Sets default values
@@ -52,18 +53,9 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 {
 	if (OtherActor && OtherActor != this)
 	{
-        if (bIsPlayerOwned)
+        if (OtherActor && OtherActor != this)
         {
-                UGameplayStatics::ApplyDamage(OtherActor, Damage, nullptr, this, nullptr);
-                if (HitEffect)
-                {
-                    UGameplayStatics::SpawnEmitterAtLocation(this, HitEffect, GetActorLocation(), GetActorRotation(), FVector(1.0f, 1.0f, 1.0f), true); // 生成粒子效果
-                }
-        }
-        else
-        {
-            // 如果是敌人发射的炮弹，检查是否击中玩家坦克
-            if (OtherActor->ActorHasTag(FName("PlayerTank")))
+            if (bIsPlayerOwned)
             {
                 UGameplayStatics::ApplyDamage(OtherActor, Damage, nullptr, this, nullptr);
                 if (HitEffect)
@@ -71,15 +63,26 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
                     UGameplayStatics::SpawnEmitterAtLocation(this, HitEffect, GetActorLocation(), GetActorRotation(), FVector(1.0f, 1.0f, 1.0f), true); // 生成粒子效果
                 }
             }
-        }
-		
-		
-		UE_LOG(LogTemp, Warning, TEXT("Projectile hit: %s"), *OtherActor->GetName());
+            else
+            {
+                // 如果是敌人发射的炮弹，检查是否击中玩家坦克
+                if (OtherActor->ActorHasTag(FName("PlayerTank")) || OtherActor->ActorHasTag(FName("Wall")))
+                {
+                    UE_LOG(LogTemp, Display, TEXT("HIT PlayerTank || Wall"));
+                    UGameplayStatics::ApplyDamage(OtherActor, Damage, nullptr, this, nullptr);
+                    if (HitEffect)
+                    {
+                        UGameplayStatics::SpawnEmitterAtLocation(this, HitEffect, GetActorLocation(), GetActorRotation(), FVector(1.0f, 1.0f, 1.0f), true); // 生成粒子效果
+                    }
+                }
+            }
 
 	}
 
 	//销毁炮弹
 	Destroy();
+
+	}
 
 }
 

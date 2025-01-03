@@ -24,7 +24,7 @@ private:
 	APawn* PlayerPawn;
 	class AEnemyTank* ControlledTank;
 
-	void MoveToRandomLocation();
+	//void MoveToRandomLocation();
 
 
 
