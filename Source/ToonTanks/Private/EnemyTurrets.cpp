@@ -8,7 +8,7 @@ AEnemyTurrets::AEnemyTurrets()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	FireRate = 2.0f;
+	TurretFireRate = 2.0f;
 	FireRange = 500.0f;
 }
 
@@ -19,7 +19,7 @@ void AEnemyTurrets::BeginPlay()
 	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
 
 	// 设置定时器
-	GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &AEnemyTurrets::Fire, FireRate, true);
+	GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &AEnemyTurrets::Fire, TurretFireRate, true);
 
 	PrimaryActorTick.bCanEverTick = true;
 	Tags.Add(FName("Enemy")); // 添加标签
@@ -42,7 +42,7 @@ void AEnemyTurrets::Tick(float DeltaTime)
 		if (!GetWorld()->GetTimerManager().IsTimerActive(FireRateTimerHandle))
 		{
 			// 如果定时器未激活，则启动定时器
-			GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &AEnemyTurrets::Fire, FireRate, true);
+			GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &AEnemyTurrets::Fire, TurretFireRate, true);
 		}
 	}
 	else

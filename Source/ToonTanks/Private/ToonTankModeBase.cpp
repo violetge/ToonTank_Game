@@ -7,6 +7,7 @@
 #include "EnemyTank.h"
 #include "SpawnManager.h"
 #include "Wall.h"
+#include "BaseCore.h"
 #include <Kismet/GameplayStatics.h>
 
 
@@ -58,6 +59,10 @@ void AToonTankModeBase::ActorDied(AActor* DeadActor)
 	{
 		HandleWallDeath();
 
+	}
+	else if (DeadActor == (BaseCore = Cast<ABaseCore>(DeadActor)))
+	{
+		HandleBaseCoreDeath();
 	}
 }
 
@@ -116,6 +121,23 @@ void AToonTankModeBase::HandleWallDeath()
 {
 	Wall->HandleDestruction();
 
+}
+
+void AToonTankModeBase::HandleBaseCoreDeath()
+{
+	OnGameOver(false); //游戏结束 显示UI
+	UE_LOG(LogTemp, Warning, TEXT("OnGameOver(false); //游戏结束"));
+	BaseCore->HandleDestruction();
+
+	if (ToonTankPlayerController)
+	{
+		//设置玩家控制器不可输入  下面俩条语句等价  ture表示死亡
+		ToonTankPlayerController->SetTankPlayerControl(true);
+		/*ToonTankPlayerController->GetPawn()->DisableInput(ToonTankPlayerController);*/
+
+		//显示鼠标光标
+		ToonTankPlayerController->bShowMouseCursor = true;
+	}
 }
 
 

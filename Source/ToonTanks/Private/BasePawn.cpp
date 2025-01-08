@@ -13,6 +13,9 @@ ABasePawn::ABasePawn()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	FireRate = 2.0f;//2秒发射一次 蓝图可改
+	bCanfire = true;
+
 	Base = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TankBase"));
 	Turret = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TankTurret"));
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSpawnPoint"));
@@ -53,6 +56,8 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+
+
 void ABasePawn::HandleDestruction()
 {
 	// 播放死亡动画
@@ -64,7 +69,7 @@ void ABasePawn::HandleDestruction()
 
 void ABasePawn::Fire()
 {
-	if (ProjectileClass)
+	if (bCanfire && ProjectileClass)
 	{
 		// 获取炮弹生成点的位置和旋转
 		FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
@@ -83,7 +88,15 @@ void ABasePawn::Fire()
 			/*UE_LOG(LogTemp, Display, TEXT("fire"));*/
 		}
 
+		bCanfire = false;
+		GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &ABasePawn::ResetFire, FireRate, false);
+
 	}
+}
+
+void ABasePawn::ResetFire()
+{
+	bCanfire = true;
 }
 
 

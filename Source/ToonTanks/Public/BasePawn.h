@@ -54,6 +54,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Projectile Type")
 	TSubclassOf<class AProjectile> ProjectileClass;
 
+	UPROPERTY(EditAnywhere, Category = "FireRate")
+	double FireRate;
+
+	FTimerHandle FireRateTimerHandle;
+	bool bCanfire;
+	void ResetFire();
 	void HandleDestruction();
 	void Fire();
 protected:

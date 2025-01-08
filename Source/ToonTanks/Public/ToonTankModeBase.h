@@ -37,6 +37,7 @@ private:
 	class AEnemyTank* EnemyTank;
 	class ASpawnManager* SpawnManager;
 	class AWall* Wall;
+	class ABaseCore* BaseCore;
 	AToonTankPlayerController* ToonTankPlayerController;
 
 	// ¶¨Ê±Æ÷¾ä±ú
@@ -55,6 +56,7 @@ private:
 	void HandleEnemyTurretDeath(AEnemyTurrets* DeadTurret);
 	void HandleEnemyTankDeath(AEnemyTank* DeadTank);
 	void HandleWallDeath();
+	void HandleBaseCoreDeath();
 
 
 

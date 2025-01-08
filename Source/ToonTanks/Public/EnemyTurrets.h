@@ -42,7 +42,7 @@ public:
 	FTimerHandle FireRateTimerHandle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float FireRate;
+	float TurretFireRate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float FireRange;
 
