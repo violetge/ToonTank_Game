@@ -27,6 +27,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void SetOwnerType(bool bIsPlayerOwn);
+	void SetInstigatorTank(AActor* InstigatorTank); // 添加函数声明
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* ProjectileMesh;
@@ -46,6 +47,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Effects")
 	UParticleSystemComponent* Traill;
+
+	AActor* InstigatorActor; // 添加指向发射坦克的指针
 
 private:
 

@@ -24,6 +24,7 @@ AProjectile::AProjectile()
 
 	bIsPlayerOwned = false; // 默认子弹不是由玩家发射
 	Damage = 50;
+    InstigatorActor = nullptr;
 
 
 }
@@ -49,12 +50,15 @@ void AProjectile::SetOwnerType(bool bIsPlayerOwn)
 	this->bIsPlayerOwned = bIsPlayerOwn;
 }
 
+void AProjectile::SetInstigatorTank(AActor* InstigatorTank)
+{
+    InstigatorActor = InstigatorTank;
+}
+
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor && OtherActor != this)
-	{
-        if (OtherActor && OtherActor != this)
-        {
+    if (OtherActor && OtherActor != this && OtherActor != InstigatorActor)
+    {
             if (bIsPlayerOwned)
             {
                 UGameplayStatics::ApplyDamage(OtherActor, Damage, nullptr, this, nullptr);
@@ -78,12 +82,8 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
             }
 
 	}
-
 	//销毁炮弹
 	Destroy();
-
-	}
-
 }
 
 

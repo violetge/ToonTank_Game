@@ -81,6 +81,7 @@ void ABasePawn::Fire()
 		{
 			// 检查是否为玩家控制的坦克发射
 			bool bIsPlayerOwned = bIsPlayerControlled;
+			Projectile->SetInstigatorTank(this); // 设置发射炮弹的坦克
 			//打印bIsPlayerOwned
 			UE_LOG(LogTemp, Display, TEXT("bIsPlayerOwned: %d"), bIsPlayerOwned);
 			Projectile->SetOwnerType(bIsPlayerOwned);
